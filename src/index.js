@@ -1,5 +1,4 @@
 const faker = require('faker');
-console.log('index.js is working');
 
 const userList = document.querySelector('#user-list');
 
@@ -7,7 +6,7 @@ let users = JSON.parse(window.localStorage.users);
 let curr = window.location.hash.slice(1) * 1;
 
 if (!users) {
-  users = new Array(10).fill('').map((_) => faker.helpers.userCard());
+  users = new Array(10).fill('').map(() => faker.helpers.userCard());
   window.localStorage.users = JSON.stringify(users);
 }
 
@@ -24,21 +23,18 @@ const populateUsers = () => {
     if (curr === idx * 1 + 1) {
       const newUl = document.createElement('ul');
       newLi.appendChild(newUl);
-      const userLis = [user.email, user.phone, user.username, user.website].map(
-        (detail) => {
+      [user.username, user.email, user.phone, user.website]
+        .map((detail) => {
           const userLi = document.createElement('li');
           userLi.innerHTML = detail;
           return userLi;
-        }
-      );
-      userLis.forEach((userLi) => newUl.appendChild(userLi));
+        })
+        .forEach((userLi) => newUl.appendChild(userLi));
     }
   }
-  console.log('ran populateUsers');
 };
 
 populateUsers();
-console.log(users);
 
 window.addEventListener('hashchange', () => {
   curr = window.location.hash.slice(1) * 1;
